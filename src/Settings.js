@@ -12,10 +12,16 @@ class Zone extends Component{
 
     toggleZone = (zoneNumber) => {
         if(this.state.className === 'zone-button'){
-            console.log(`starting zone ${zoneNumber}`);
-            this.setState({
-                className: 'zone-button-on'
-            });
+            let startedZone = document.getElementsByClassName('zone-button-on')
+            if(startedZone.length > 0){
+                alert('Cannont start more than one zone at a time!')
+            }
+            else{
+                console.log(`starting zone ${zoneNumber}`);
+                this.setState({
+                    className: 'zone-button-on'
+                });
+            }
         }
         else{
             console.log(`stopping zone ${zoneNumber}`);
@@ -24,10 +30,11 @@ class Zone extends Component{
             })
         }
     };
+
     render(){
         const{zoneNumber, className} = this.state;
     return(
-        <Button className={className} onClick={() => this.toggleZone(zoneNumber)}>Zone {zoneNumber}</Button>
+        <Button className={className} onClick={() => this.toggleZone(zoneNumber)} style={{margin: 15, height: 100, width: 100 }} >Zone {zoneNumber}</Button>
     );
 }
 };
@@ -51,7 +58,6 @@ class Settings extends Component {
         const zoneNumber = this.state.zoneNumber;
         if(zones.length < 8){
             this.setState ({
-                // zones: zones.concat(<Button className='zone-button' onClick={() => this.startZone(zoneNumber)} key={zoneNumber}>Zone {zoneNumber}</Button>)
                 zones: zones.concat(<Zone key={zoneNumber} zoneNumber={zoneNumber}/>),
                 zoneNumber: zoneNumber+1
             });
@@ -65,7 +71,7 @@ class Settings extends Component {
                 <h1>Settings</h1>
             </header>
             <Button onClick={this.addZone}>Add Some Zones</Button>
-                <div>
+                <div className='col-md-4'>
                     {this.state.zones}
                 </div>
             </div>
