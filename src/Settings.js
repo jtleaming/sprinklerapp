@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import {Button} from 'reactstrap';
-import Zone from './Zone'
+import {Link} from 'react-router-dom';
+import Zone from './Zone';
 import './App.css';
+import sprinkler from './sprinkler.svg';
 import TimePicker from 'react-time-picker/dist/entry.nostyle';
 import Slider from 'rc-slider';
 
@@ -27,7 +29,7 @@ class Settings extends Component {
         return {
             zones: Zone.setZones(),
             selectedDays: [],
-            zoneNumber: window.localStorage.length === 0 ? 1 : window.localStorage.length,
+            zoneNumber: window.localStorage.length === 0 ? 0 : window.localStorage.length,
             time: '10:00',
             duration: 1,
             disableClock: false
@@ -57,12 +59,15 @@ class Settings extends Component {
     };
 
     addZone = () => {
-        const { zones, zoneNumber, selectedDays, time, duration, disableClock} = this.state;
+        const { zones, selectedDays, time, duration, disableClock} = this.state;
+
+        var zoneNumber = this.state.zoneNumber;
+        zoneNumber = zoneNumber + 1;
 
         if(zones.length < 8){
             this.setState ({
                 zones: zones.concat(<Zone key={zoneNumber} time={time} zoneNumber={zoneNumber} selectedDays={selectedDays} duration={duration}/>),
-                zoneNumber: zoneNumber+1,
+                zoneNumber: zoneNumber,
                 time: this.changeTime(time, duration, '+')
             });
         }
@@ -74,9 +79,9 @@ class Settings extends Component {
     deleteZone  = (e) => {
         const zones = this.state.zones;
         const zoneNumber = this.state.zoneNumber;
-        const index = zones.indexOf(e.target.value);
         const time = this.state.time;
         const duration = this.state.duration;
+        const index = zones.indexOf(e.target.value);
         
         
         const zoneButtons = document.getElementsByClassName('zone-button');
@@ -119,10 +124,16 @@ class Settings extends Component {
         };
 
         var splitTime = time.split(':');
+        if(splitTime[1] === '00' && operator === '-')
+        {
+            splitTime[1] = '60';
+            splitTime[0] = (parseInt(splitTime[0]) - 1).toString();
+        }
+
         var minutes = operation[operator](parseInt(splitTime[1], 10), duration) < 10 ? '0' + operation[operator](parseInt(splitTime[1], 10), duration) : operation[operator](parseInt(splitTime[1], 10), duration);
         var hours = parseInt(splitTime[0], 10);
 
-        if (minutes > 60) {
+        if (minutes >= 60) {
             minutes = minutes - 60 < 10 ? '0' + (minutes - 60) : minutes - 60;
             hours = hours + 1
         };
@@ -135,6 +146,9 @@ class Settings extends Component {
         return (
             <div className="App">
             <header className="App-header">
+            <Link to='/'>
+                <img src={sprinkler} className="App-logo" alt="sprinkler" />
+            </Link>
                 <h1>Settings</h1>
             </header>
             <div>

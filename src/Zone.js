@@ -29,6 +29,8 @@ class Zone extends Component {
     }
 
     toggleZone = (zoneNumber) => {
+        var me = this;
+       
         if (this.state.classColor.backgroundColor === '#d81647e8') {
             let startedZone = document.getElementById('zone-on')
             if (startedZone) {
@@ -40,6 +42,11 @@ class Zone extends Component {
                     classColor: { backgroundColor: 'green' },
                     id: 'zone-on'
                 });
+                window.setTimeout(function (){
+                    console.log(`stopping zone ${zoneNumber}`)
+                    me.setState({ classColor: { backgroundColor: '#d81647e8' }, 
+                    id: null })
+                }, me.state.duration * 60000);
             }
         }
         else {

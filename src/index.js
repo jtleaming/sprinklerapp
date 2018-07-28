@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 import Routes from './Router';
-
+    
 ReactDOM.render(<Router>
     {Routes}
 </Router>, document.getElementById('root'));
