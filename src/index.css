@@ -457,3 +457,23 @@ day {
   border-width: 4px 4px 0;
   border-top-color: #6c6c6c;
 }
+table {
+  width: 90%;
+  align-items: center;
+  empty-cells: hide;
+  margin: 0 auto
+  
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+}
+table {
+    border-spacing: 5px;
+}
+
+tr:nth-child(even) {background: #CCC}
+tr:nth-child(odd) {background: #FFF}

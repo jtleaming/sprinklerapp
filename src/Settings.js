@@ -6,6 +6,7 @@ import './App.css';
 import sprinkler from './sprinkler.svg';
 import TimePicker from 'react-time-picker/dist/entry.nostyle';
 import Slider from 'rc-slider';
+import "react-table/react-table.css";
 
 
 const DaysOfTheWeek = (props) => {
@@ -20,6 +21,32 @@ const DaysOfTheWeek = (props) => {
                 )}
         </div>
     )
+}
+
+class ScheduleTable extends Component {
+    state ={
+        zones: this.props.zones
+    }
+    render(){
+        return(
+            <table>
+                <tr>
+                    <th>Zone Number</th>
+                    <th>Days of Week</th>
+                    <th>Duration</th>
+                    <th>Start Time</th>
+                </tr>
+                {this.state.zones.map(props => 
+                    <tr>
+                        <td>{props.zoneNumber}</td>
+                        <td contentEditable='true'>{props.selectedDays.join(', ')}</td>
+                        <td>{props.duration}</td>
+                        <td>{props.time}</td>
+                    </tr>
+                )}
+            </table>
+        );
+    }
 }
 
 class Settings extends Component {
@@ -38,7 +65,9 @@ class Settings extends Component {
 
     state = this.initialSate();
 
-    reset =() => {
+    renderEditable = this.renderEditable.bind(this);
+
+    reset = () => {
         this.setState(this.initialSate())
     }
 
@@ -139,8 +168,26 @@ class Settings extends Component {
         };
 
         return hours.toString() + ':' + minutes.toString();
-    }
-    
+    };
+
+    renderEditable(cellInfo) {
+        return (
+            <div
+                style={{ backgroundColor: "#fafafa" }}
+                contentEditable
+                suppressContentEditableWarning
+                onBlur={e => {
+                    const zones = this.state.zones;
+                    zones[cellInfo.index].props[cellInfo.column.id] = e.target.innerHTML;
+                    this.setState({ zones });
+                }}
+                dangerouslySetInnerHTML={{
+                    __html: this.state.zones[cellInfo.index].props[cellInfo.column.id]
+                }}
+            />
+        );
+    };
+
     render() { 
         const {duration, zones, disableClock, time} = this.state;
         return (
@@ -163,9 +210,8 @@ class Settings extends Component {
                     <Slider marks={{5:'5', 10:'10', 15:'15', 20:'20', 25:'25', 30:'30'}} min={1} max={35} onChange={this.slideChange} value={duration}/>
                     <br/>
                     <p>{duration}</p>
-                <div style={{width:1000, margin: 'auto'}}>
-                    {this.state.zones}
-                </div>
+                <ScheduleTable zones={Zone.getZones()} />
+                <br />
                 <Button id='save-button' onClick={()=> this.saveZones(zones)}>Save</Button>
                 <Button id='clear-button' onClick={this.reset}>Clear</Button>
             </div>

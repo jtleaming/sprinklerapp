@@ -28,6 +28,21 @@ class Zone extends Component {
         }
     }
 
+    static getZones = () => {
+        let numberOfZones = window.localStorage.length;
+        let zones = [];
+        if (numberOfZones === 0) {
+            return zones;
+        }
+        else {
+            for (let index = 1; index <= numberOfZones; index++) {
+                let zone = JSON.parse(window.localStorage.getItem(`zone ${index}`));
+                zones.push(zone);
+            }
+            return zones;
+        }
+    }
+
     toggleZone = (zoneNumber) => {
         var me = this;
        
