@@ -23,10 +23,15 @@ const DaysOfTheWeek = (props) => {
     )
 }
 
-class ScheduleTable extends Component {
+class Schedule extends Component {
     state ={
         zones: this.props.zones
     }
+
+    upDateTime = (duration, time) => {
+        
+    }
+
     render(){
         return(
             <table>
@@ -40,7 +45,7 @@ class ScheduleTable extends Component {
                     <tr>
                         <td>{props.zoneNumber}</td>
                         <td contentEditable='true'>{props.selectedDays.join(', ')}</td>
-                        <td>{props.duration}</td>
+                        <CellSlider duration={props.duration} onChange={()=>this.upDateTime(props.duration, props.time)}/>
                         <td>{props.time}</td>
                     </tr>
                 )}
@@ -49,12 +54,24 @@ class ScheduleTable extends Component {
     }
 }
 
+class CellSlider extends Component{
+    state = {
+        duration: this.props.duration
+    }
+    slideChange = duration => this.setState({ duration });
+    render(){
+        return(
+            <td>{this.state.duration} <Slider min={1} max={35} onChange={this.slideChange} value={this.state.duration}/></td>
+        )
+    }
+}
+
 class Settings extends Component {
 
    initialSate = () => {
 
         return {
-            zones: Zone.setZones(),
+            zones: Zone.getZones(),
             selectedDays: [],
             zoneNumber: window.localStorage.length === 0 ? 0 : window.localStorage.length,
             time: '10:00',
@@ -146,7 +163,7 @@ class Settings extends Component {
 
     slideChange = duration => this.setState({duration});
 
-    changeTime = (time, duration, operator) => {
+    static changeTime = (time, duration, operator) => {
         var operation = {
             '+': function (a, b) { return a + b },
             '-': function (a, b) { return a - b },
@@ -210,7 +227,7 @@ class Settings extends Component {
                     <Slider marks={{5:'5', 10:'10', 15:'15', 20:'20', 25:'25', 30:'30'}} min={1} max={35} onChange={this.slideChange} value={duration}/>
                     <br/>
                     <p>{duration}</p>
-                <ScheduleTable zones={Zone.getZones()} />
+                <Schedule zones={zones} />
                 <br />
                 <Button id='save-button' onClick={()=> this.saveZones(zones)}>Save</Button>
                 <Button id='clear-button' onClick={this.reset}>Clear</Button>
