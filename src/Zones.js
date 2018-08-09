@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Zone from './Zone';
 import sprinkler from './sprinkler.svg';
 import { Link } from 'react-router-dom';
+import {Button} from 'reactstrap';
+ 
 
 
 
@@ -22,6 +24,9 @@ class Zones extends Component {
                     <img src={sprinkler} className="App-logo" alt="sprinkler" />
                 </Link>
                 <h1>Zones</h1>
+                <nav className='nav'>
+                    <Link to='/settings'><Button style={{ alignContent: 'left' }}>Settings</Button></Link>
+                </nav>
             </header>
             <div>{this.state.zones}</div>
         </div> );

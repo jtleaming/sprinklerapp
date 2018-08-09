@@ -4,6 +4,10 @@ body {
   font-family: sans-serif;
 }
 
+h1 {
+  height: 0px;
+}
+
 .zone-button {
   margin: 25px;
   height: 200px;
@@ -495,4 +499,8 @@ tr:nth-child(odd) {background: #FFF}
 
 .dropdown:hover .dropdown-content {
     display: block;
+}
+
+div, Button, Dropdown{
+  margin: 5px
 }
