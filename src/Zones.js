@@ -25,7 +25,7 @@ class Zones extends Component {
                 </Link>
                 <h1>Zones</h1>
                 <nav className='nav'>
-                    <Link to='/settings'><Button style={{ alignContent: 'left' }}>Settings</Button></Link>
+                    <Link to='/settings'><Button style={{ margin: '0px 5px 0px 5px', alignContent: 'left' }}>Settings</Button></Link>
                 </nav>
             </header>
             <div>{this.state.zones}</div>
