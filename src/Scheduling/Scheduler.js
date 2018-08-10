@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Schedules from './Schedules';
+import Schedule from './Schedule';
 import { Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import './App.css';
+import '../App.css';
 import TimePicker from 'react-time-picker/dist/entry.nostyle';
-import CellSlider from './CellSlider';
+import CellSlider from '../CellSlider';
 import Slider from 'rc-slider';
 import 'react-table/react-table.css';
 import { notify } from 'react-notify-toast';
@@ -33,7 +33,7 @@ class Scheduler extends Component {
         selectedDays: [],
         dropdownOpen: false,
         dropdownTitle: 'Zones',
-        row: [],
+        rows: [],
         selectedZones: []
     };
 
@@ -95,9 +95,8 @@ class Scheduler extends Component {
         }));
     };
 
-
-    addRow = () => {
-        const { duration, time, row, selectedZones, dropdownTitle, selectedDays } = this.state;
+    addRow =()=>{
+        const { time, selectedZones, duration, dropdownTitle, selectedDays, rows} = this.state;
         if (dropdownTitle === 'Zones') {
             notify.show('You must select a Zone motherfucker!');
             return;
@@ -107,29 +106,23 @@ class Scheduler extends Component {
             return;
         }
         selectedZones.push(dropdownTitle);
-
-        row.push(
-            <tr key={dropdownTitle[5]}>
-                <td>{dropdownTitle}</td>
-                <td>{selectedDays.join(', ')}</td>
-                <CellSlider duration={duration} onChange={() => this.upDateTime(duration, time)} />
-                <td>{time}</td>
-            </tr>
-        );
+        var schedule = new Schedule(this.state);
+        var row = schedule.addRow();
+        rows.push(row);
         this.setState({
-            row,
+            rows,
             disableClock: true,
             time: this.changeTime(time, duration, '+'),
             dropdownTitle: 'Zones',
             selectedZones
         });
-
     }
+ 
 
-    render(){
+    render() {
         let zonesToSelect = Object.keys(JSON.parse(localStorage.Zones));
         zonesToSelect.shift();
-        return(
+        return (
             <div>
                 <div>
                     <DaysOfTheWeek selectDay={this.selectDay} selectedDays={this.state.selectedDays} time={this.state.time} />
@@ -139,7 +132,7 @@ class Scheduler extends Component {
                 <br />
                 <p>{this.state.duration}</p>
                 <div>
-                    <Button onClick={this.addRow}>Create Row</Button>
+                    <Button onClick={this.addRow}>Create rows</Button>
                     <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                         <DropdownToggle caret>{this.state.dropdownTitle}</DropdownToggle>
                         <DropdownMenu>
@@ -149,7 +142,7 @@ class Scheduler extends Component {
                         </DropdownMenu>
                     </Dropdown>
                 </div>
-                <Schedules row={this.state.rows}/>
+                <Schedule rows={this.state.rows}/>
                 <Button id='save-button' onClick={this.saveSchedule} style={{ margin: 15 }}>Save Schedule</Button>
                 <Button id='clear-button' onClick={this.clearSchedule} style={{ margin: 15 }}>Clear Schedule</Button>
             </div>

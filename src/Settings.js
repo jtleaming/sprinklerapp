@@ -5,7 +5,7 @@ import Zone from './Zone';
 import './App.css';
 import sprinkler from './sprinkler.svg';
 import 'react-table/react-table.css';
-import Scheduler from './Scheduler';
+import Scheduler from './Scheduling/Scheduler';
 import Notifications from 'react-notify-toast';
 
 class Settings extends Component {
@@ -23,8 +23,6 @@ class Settings extends Component {
    }
 
     state = this.initialSate();
-
-    renderEditable = this.renderEditable.bind(this);
 
     reset = () => {
         this.setState(this.initialSate());

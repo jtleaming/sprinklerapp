@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
-import './App.css';
-import CellSlider from './CellSlider';
+import '../App.css';
+import CellSlider from '../CellSlider';
 import 'react-table/react-table.css';
 import { notify } from 'react-notify-toast';
+import Schedule from './Schedule';
+import { Button } from 'reactstrap';
+import { Link } from 'react-router-dom';
+import Notifications from 'react-notify-toast';
+import sprinkler from '../sprinkler.svg';
 
 
 class Schedules extends Component {
@@ -118,19 +123,21 @@ class Schedules extends Component {
         zonesToSelect.shift();
         return (
             <div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Zone Number</th>
-                            <th>Days of Week</th>
-                            <th>Duration</th>
-                            <th>Start Time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.state.row}
-                    </tbody>
-                </table>
+                <div className="App">
+                    <Notifications />
+                    <header className="App-header">
+                        <Link to='/'>
+                            <img src={sprinkler} className="App-logo" alt="sprinkler" />
+                        </Link>
+                        <h1>Schedules</h1>
+                        <nav className='nav'>
+                            <Link to='/ConfigureZones'><Button style={{ margin: '0px 5px 0px 5px', alignContent: 'left' }}>Configure Zones</Button></Link>
+                            <Link to="/zones"> <Button style={{ margin: '0px 5px 0px 5px', alignContent: 'left' }}>Zones</Button> </Link>
+                            <Link to="/schedules"> <Button style={{ margin: '0px 5px 0px 5px', alignContent: 'left' }}>Schedules</Button> </Link>
+                        </nav>
+                    </header>
+                </div>
+                <Schedule />
             </div>
         );
     }

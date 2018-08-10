@@ -4,14 +4,14 @@ import Settings from './Settings';
 import Zones from './Zones';
 import App from './App';
 import ConfigureZones from './ConfigureZones';
-import Schedules from './Schedules';
+import Schedules from './Scheduling/Schedules';
 
 export default (
     <Switch>
-        <Route exact path="/" component={App}/>
-        <Route path="/settings" component={Settings}/>
-        <Route path="/zones" component={Zones}/>
-        <Route path="/configurezones" component={ConfigureZones}/>
-        <Route path='/schedules' component={Schedules}/>
+        <Route exact path="/" component={App} />
+        <Route path="/settings" component={Settings} />
+        <Route path="/zones" component={Zones} />
+        <Route path="/configurezones" component={ConfigureZones} />
+        <Route path='/schedules' component={Schedules} />
     </Switch>
 );
