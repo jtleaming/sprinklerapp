@@ -18,7 +18,7 @@ class Settings extends Component {
            time: '10:00',
            duration: 1,
            disableClock: false,
-           schedules: null
+           rows: this.props.rows
        };
    }
 

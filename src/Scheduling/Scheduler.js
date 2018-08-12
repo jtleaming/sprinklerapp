@@ -3,9 +3,9 @@ import Schedule from './Schedule';
 import { Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import '../App.css';
 import TimePicker from 'react-time-picker/dist/entry.nostyle';
-import CellSlider from '../CellSlider';
 import Slider from 'rc-slider';
 import 'react-table/react-table.css';
+import CellSlider from '../CellSlider';
 import { notify } from 'react-notify-toast';
 
 const DaysOfTheWeek = (props) => {
@@ -95,8 +95,12 @@ class Scheduler extends Component {
         }));
     };
 
-    addRow =()=>{
-        const { time, selectedZones, duration, dropdownTitle, selectedDays, rows} = this.state;
+    saveSchedule = () => {
+        
+    };
+
+    addRow = () => {
+        const { duration, time, rows, selectedZones, dropdownTitle, selectedDays } = this.state;
         if (dropdownTitle === 'Zones') {
             notify.show('You must select a Zone motherfucker!');
             return;
@@ -106,9 +110,15 @@ class Scheduler extends Component {
             return;
         }
         selectedZones.push(dropdownTitle);
-        var schedule = new Schedule(this.state);
-        var row = schedule.addRow();
-        rows.push(row);
+
+        rows.push(
+            <tr key={dropdownTitle[5]}>
+                <td>{dropdownTitle}</td>
+                <td>{selectedDays.join(', ')}</td>
+                <CellSlider duration={duration} onChange={() => this.upDateTime(duration, time)} />
+                <td>{time}</td>
+            </tr>
+        );
         this.setState({
             rows,
             disableClock: true,
@@ -116,6 +126,7 @@ class Scheduler extends Component {
             dropdownTitle: 'Zones',
             selectedZones
         });
+
     }
  
 
