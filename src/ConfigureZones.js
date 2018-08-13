@@ -11,10 +11,6 @@ class ConfigureZones extends Component {
     initialState() {
         var zones = [];
 
-        if (!localStorage.Zones){
-            localStorage.setItem('Zones', '{"NumberOfZones":0}');
-        }
-
         let zoneData = JSON.parse(localStorage.Zones);
         for(var i=1; i<= zoneData.NumberOfZones;i++)
         {

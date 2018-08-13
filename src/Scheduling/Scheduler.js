@@ -23,7 +23,10 @@ const DaysOfTheWeek = (props) => {
 };
 
 class Scheduler extends Component {
-
+    constructor(props){
+        super();
+        this.saveSchedule = this.saveSchedule.bind(this);
+    }
     state = {
         startTime: null,
         daysOfTheWeek: null,
@@ -80,8 +83,6 @@ class Scheduler extends Component {
 
     slideChange = duration => this.setState({ duration });
 
-
-
     select = (zoneName) => {
         this.setState({
             dropdownTitle: zoneName
@@ -96,7 +97,15 @@ class Scheduler extends Component {
     };
 
     saveSchedule = () => {
-        
+        let i =1;
+        let sections = [];
+        this.state.rows.forEach(row => {
+            let rowProps = row.props.children;
+            sections.push(
+                `"Section ${i}": {"Start Time": "${rowProps[3].props.children}", "Duration": ${rowProps[2].props.duration}, "Days": "${rowProps[1].props.children}" , "Zone Number": "${rowProps[0].props.children}"}`);
+            i++;
+        });
+        localStorage.setItem('Schedule 1', `{${sections}}`);
     };
 
     addRow = () => {

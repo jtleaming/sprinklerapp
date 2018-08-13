@@ -1,0 +1,15 @@
+{
+    "Section 1": {
+        "Start Time": "10:00", "Duration": 16, "Days": "Wed, Fri, Sun" , "Zone Number": "Zone 1"
+    }
+,
+
+    "Section 2": {
+        "Start Time": "10:16", "Duration": 16, "Days": "Wed, Fri, Sun" , "Zone Number": "Zone 2"
+    }
+,
+
+    "Section 3":{
+        "Start Time": "10:32", "Duration": 16, "Days":" Wed, Fri, Sun" , "Zone Number":" Zone 3"
+    }
+}

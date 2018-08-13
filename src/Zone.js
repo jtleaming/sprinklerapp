@@ -4,9 +4,9 @@ import './App.css';
 
 class Zone extends Component {
     setInitialState = () => {
-        let zones = JSON.parse(localStorage.Zones)
+        let zones = JSON.parse(localStorage.Zones);
         if(zones[`Zone ${this.props.ZoneNumber}`]) {
-            return({classColor : {backgroundColor: 'green'}, id:'zone-on'})
+            return({classColor : {backgroundColor: 'green'}, id:'zone-on'});
         }
         else{
             return({ classColor: { backgroundColor: '#d81647e8' } });
@@ -16,7 +16,7 @@ class Zone extends Component {
     state = this.setInitialState();
 
     static setZones = () => {
-        let zonesJson = JSON.parse(localStorage.Zones),
+        let zonesJson = localStorage.Zones ? JSON.parse(localStorage.Zones): null,
             zones = [];
         if (zonesJson.NumberOfZones === 0){
             return zones;
@@ -33,9 +33,9 @@ class Zone extends Component {
         let zoneJson = JSON.parse(localStorage.Zones);
 
         if (this.state.classColor.backgroundColor === '#d81647e8') {
-            let startedZone = document.getElementById('zone-on')
+            let startedZone = document.getElementById('zone-on');
             if (startedZone) {
-                alert('Cannont start more than one zone at a time!')
+                alert('Cannont start more than one zone at a time!');
             }
             else {
                 console.log(`starting zone ${zoneNumber}`); 
@@ -62,7 +62,7 @@ class Zone extends Component {
                     backgroundColor: '#d81647e8'
                 },
                 id: null
-            })
+            });
         }
     };
 
