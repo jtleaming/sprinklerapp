@@ -3,8 +3,8 @@ import Schedule from './Schedule';
 import { Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import '../App.css';
 import TimePicker from 'react-time-picker/dist/entry.nostyle';
+import '../index.css';
 import Slider from 'rc-slider';
-import 'react-table/react-table.css';
 import CellSlider from '../CellSlider';
 import { notify } from 'react-notify-toast';
 
@@ -27,9 +27,13 @@ class Scheduler extends Component {
         super();
         this.saveSchedule = this.saveSchedule.bind(this);
 
+        this.state = this.setInitialState();
+    }
+    
+    setInitialState = () =>{
         var i = 1;
         Object.keys(localStorage).forEach(key => key.includes('Schedule') ? i++ : i); 
-        this.state = {
+        return {
             startTime: null,
             daysOfTheWeek: null,
             time: '10:00',
@@ -43,7 +47,6 @@ class Scheduler extends Component {
             numberOfSchedules: i
         };
     }
-    
 
     selectDay = (clickedDay) => {
         if (this.state.selectedDays.indexOf(clickedDay) >= 0) {
@@ -59,7 +62,7 @@ class Scheduler extends Component {
                 selectedDays: prevState.selectedDays.concat(clickedDay)
             }));
         }
-    };
+    }
 
     changeTime = (time, duration, operator) => {
         var operation = {
@@ -82,7 +85,7 @@ class Scheduler extends Component {
         }
 
         return hours.toString() + ':' + minutes.toString();
-    };
+    }
 
     onChange = (time) => this.setState({ time });
 
@@ -92,7 +95,7 @@ class Scheduler extends Component {
         this.setState({
             dropdownTitle: zoneName
         });
-    };
+    }
 
 
     toggle = () => {
@@ -112,7 +115,13 @@ class Scheduler extends Component {
             i++;
         });
         localStorage.setItem(`Schedule ${s}`, `{${sections}}`);
+        notify.show('Schedule saved successfully!');
+        this.setState(this.setInitialState());
     };
+
+    clearSchedule = () => {
+        this.setState(this.setInitialState());
+    }
 
     addRow = () => {
         const { duration, time, rows, selectedZones, dropdownTitle, selectedDays } = this.state;

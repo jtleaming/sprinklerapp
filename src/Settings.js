@@ -4,7 +4,6 @@ import {Link} from 'react-router-dom';
 import Zone from './Zone';
 import './App.css';
 import sprinkler from './sprinkler.svg';
-import 'react-table/react-table.css';
 import Scheduler from './Scheduling/Scheduler';
 import Notifications from 'react-notify-toast';
 
