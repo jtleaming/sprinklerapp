@@ -109,7 +109,7 @@ class Schedule extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.rows}
+                        {this.props.rows}
                     </tbody>
                 </table>
             </div>

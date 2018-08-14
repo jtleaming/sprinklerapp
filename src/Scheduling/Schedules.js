@@ -17,15 +17,13 @@ class Schedules extends Component {
     }
 
     static setInitialState = () =>({
-        rows: []
+        schedule: null
     });
 
     expandSchedule = name => {
-        const {rows} = this.state;
-        if(rows.length > 1){
-            rows.splice(0,rows.length);
-        }
         var scheduleProps = JSON.parse(localStorage.getItem(name));
+        var schedule = this.state.schedule;
+        var rows = [];
         Object.keys(scheduleProps).forEach((property) => {
             var row = scheduleProps[property];
             rows.push(
@@ -37,8 +35,9 @@ class Schedules extends Component {
                 </tr>
             );
         });
+        schedule = <Schedule rows={rows}> </Schedule>;
         this.setState({
-            rows
+            schedule
         });
     }
 
@@ -67,7 +66,7 @@ class Schedules extends Component {
                         <Button key={i} onClick={() => this.expandSchedule(name)}>{name}</Button>
                     )
                 }
-                <Schedule rows={this.state.rows} />
+                {this.state.schedule}
             </div>
         );
     }
