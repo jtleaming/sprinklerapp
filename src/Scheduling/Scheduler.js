@@ -26,19 +26,24 @@ class Scheduler extends Component {
     constructor(props){
         super();
         this.saveSchedule = this.saveSchedule.bind(this);
+
+        var i = 1;
+        Object.keys(localStorage).forEach(key => key.includes('Schedule') ? i++ : i); 
+        this.state = {
+            startTime: null,
+            daysOfTheWeek: null,
+            time: '10:00',
+            duration: 1,
+            disableClock: false,
+            selectedDays: [],
+            dropdownOpen: false,
+            dropdownTitle: 'Zones',
+            rows: [],
+            selectedZones: [],
+            numberOfSchedules: i
+        };
     }
-    state = {
-        startTime: null,
-        daysOfTheWeek: null,
-        time: '10:00',
-        duration: 1,
-        disableClock: false,
-        selectedDays: [],
-        dropdownOpen: false,
-        dropdownTitle: 'Zones',
-        rows: [],
-        selectedZones: []
-    };
+    
 
     selectDay = (clickedDay) => {
         if (this.state.selectedDays.indexOf(clickedDay) >= 0) {
@@ -97,7 +102,8 @@ class Scheduler extends Component {
     };
 
     saveSchedule = () => {
-        let i =1;
+        let s = this.state.numberOfSchedules;
+        let i = 0;
         let sections = [];
         this.state.rows.forEach(row => {
             let rowProps = row.props.children;
@@ -105,7 +111,7 @@ class Scheduler extends Component {
                 `"Section ${i}": {"Start Time": "${rowProps[3].props.children}", "Duration": ${rowProps[2].props.duration}, "Days": "${rowProps[1].props.children}" , "Zone Number": "${rowProps[0].props.children}"}`);
             i++;
         });
-        localStorage.setItem('Schedule 1', `{${sections}}`);
+        localStorage.setItem(`Schedule ${s}`, `{${sections}}`);
     };
 
     addRow = () => {

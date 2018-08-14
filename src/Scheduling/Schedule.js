@@ -81,7 +81,6 @@ class Schedule extends Component {
 
     addRow () {
         const { duration, time, rows, selectedZones, dropdownTitle, selectedDays } = this.state;
-        
 
         rows.push(
             <tr key={dropdownTitle[5]}>
