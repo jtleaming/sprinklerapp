@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import '../App.css';
-import CellSlider from '../CellSlider';
 import 'react-table/react-table.css';
-import { notify } from 'react-notify-toast';
 import Schedule from './Schedule';
 import { Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
@@ -39,8 +37,8 @@ class Schedules extends Component {
             <Schedule createRows={true} rowConfig={scheduleProps}> </Schedule>
             <div style={{textAlign: 'center'}}>
                 {scheduleProps.Run ?
-                    <Button id='save-button' onClick={() => this.toggleSchedule(name)}>Set to Run</Button>:
-                    <Button id='clear-button' onClick={() => this.toggleSchedule(name)}>Set to not Run</Button>
+                    <Button id='clear-button' onClick={() => this.toggleSchedule(name)}>Set to not Run</Button>:
+                    <Button id='save-button' onClick={() => this.toggleSchedule(name)}>Set to Run</Button>
                 }
                 <Button>Edit Schedule</Button>
                 <Button>Delete Schedule</Button>

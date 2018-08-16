@@ -73,7 +73,7 @@ class Scheduler extends Component {
         var splitTime = time.split(':');
         if (splitTime[1] === '00' && operator === '-') {
             splitTime[1] = '60';
-            splitTime[0] = (parseInt(splitTime[0]) - 1).toString();
+            splitTime[0] = (parseInt(splitTime[0], 10) - 1).toString();
         }
 
         var minutes = operation[operator](parseInt(splitTime[1], 10), duration) < 10 ? '0' + operation[operator](parseInt(splitTime[1], 10), duration) : operation[operator](parseInt(splitTime[1], 10), duration);

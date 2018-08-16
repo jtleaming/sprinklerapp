@@ -5,8 +5,7 @@ import {
     Carousel,
     CarouselItem,
     CarouselControl,
-    CarouselIndicators,
-    CarouselCaption } from 'reactstrap';
+    CarouselIndicators} from 'reactstrap';
 import sprinkler from './sprinkler.svg';
 import './App.css';
 import Schedule from './Scheduling/Schedule';
@@ -31,9 +30,7 @@ class App extends Component {
         var schedules = Object.keys(localStorage);
         var zonesIndex = schedules.indexOf('Zones');
         schedules.splice(zonesIndex, 1);
-
         var runningSchedules = [];
-        var rows = [];
 
         schedules.forEach(schedule => {
             let sched = JSON.parse(localStorage[schedule]);
