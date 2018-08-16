@@ -8,15 +8,25 @@ class Schedule extends Component {
     constructor(props) {
         super();
 
-        this.state = {
+        this.state = this.setInitialState(props);
+    }
+
+    setInitialState = (props) => {
+        return{
             startTime: props.startTime,
             daysOfTheWeek: props.daysOfTheWeek,
             time: props.time,
             duration: props.duration,
             selectedDays: props.selectedDays,
             dropdownTitle: props.dropdownTitle,
-            rows: props.rows
+            rows: props.createRows ? this.addRow(props.rowConfig) : props.rows
         };
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(prevProps != this.props){
+            this.setState(this.setInitialState(this.props));
+        }
     }
 
     upDateTime = (duration, time) => {
@@ -79,17 +89,23 @@ class Schedule extends Component {
         }));
     };
 
-    addRow () {
-        const { duration, time, rows, selectedZones, dropdownTitle, selectedDays } = this.state;
-
-        rows.push(
-            <tr key={dropdownTitle[5]}>
-                <td>{dropdownTitle}</td>
-                <td>{selectedDays.join(', ')}</td>
-                <CellSlider duration={duration} onChange={() => this.upDateTime(duration, time)} />
-                <td>{time}</td>
-            </tr>
-        );
+    addRow (props) {
+        var rows = [];
+        for(var prop in props){
+            if(prop === 'Run');
+            else{
+                let row = props[prop];
+                rows.push(
+                    <tr key={row['Zone Number'][5]}>
+                        <td>{row['Zone Number']}</td>
+                        <td>{row.Days}</td>
+                        <CellSlider duration={row.Duration} onChange={() => this.upDateTime(row.Duration, row.Time)} />
+                        <td>{row['Start Time']}</td>
+                    </tr>
+                );
+            }
+            
+        }
         return rows;
     }
 
@@ -109,7 +125,7 @@ class Schedule extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.props.rows}
+                        {this.state.rows}
                     </tbody>
                 </table>
             </div>

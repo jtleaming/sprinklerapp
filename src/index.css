@@ -10,8 +10,8 @@ h1 {
 
 .zone-button {
   margin: 25px;
-  height: 200px;
-  width: 200px;
+  height: 150px;
+  width: 150px;
 }
 
 #save-button{
@@ -52,6 +52,11 @@ day {
 .time-pick{
   border-radius: 50%;
   border: none
+}
+
+.nav-button{
+   margin: 0px 5px 0px 5px; 
+   align-content: 'left' 
 }
 
 .react-time-picker {

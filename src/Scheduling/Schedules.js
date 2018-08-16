@@ -20,22 +20,32 @@ class Schedules extends Component {
         schedule: null
     });
 
+    toggleSchedule = (scheduleName) =>{
+        var schedule = JSON.parse(localStorage.getItem(scheduleName));
+
+        schedule.Run ? schedule.Run = false : schedule.Run = true;
+
+        localStorage.setItem(scheduleName, JSON.stringify(schedule));
+
+        this.expandSchedule(scheduleName);
+    }
+
     expandSchedule = name => {
         var scheduleProps = JSON.parse(localStorage.getItem(name));
         var schedule = this.state.schedule;
-        var rows = [];
-        Object.keys(scheduleProps).forEach((property) => {
-            var row = scheduleProps[property];
-            rows.push(
-                <tr key={row['Zone Number'][5]}>
-                    <td>{row['Zone Number']}</td>
-                    <td>{row.Days}</td>
-                    <CellSlider duration={row.Duration} onChange={() => this.upDateTime(row.Duration, row.Time)} />
-                    <td>{row['Start Time']}</td>
-                </tr>
-            );
-        });
-        schedule = <Schedule rows={rows}> </Schedule>;
+
+        schedule = 
+        <div>
+            <Schedule createRows={true} rowConfig={scheduleProps}> </Schedule>
+            <div style={{textAlign: 'center'}}>
+                {scheduleProps.Run ?
+                    <Button id='save-button' onClick={() => this.toggleSchedule(name)}>Set to Run</Button>:
+                    <Button id='clear-button' onClick={() => this.toggleSchedule(name)}>Set to not Run</Button>
+                }
+                <Button>Edit Schedule</Button>
+                <Button>Delete Schedule</Button>
+            </div>
+        </div>;
         this.setState({
             schedule
         });
@@ -54,9 +64,9 @@ class Schedules extends Component {
                         </Link>
                         <h1>Schedules</h1>
                         <nav className='nav'>
-                            <Link to='/ConfigureZones'><Button style={{ margin: '0px 5px 0px 5px', alignContent: 'left' }}>Configure Zones</Button></Link>
-                            <Link to="/zones"> <Button style={{ margin: '0px 5px 0px 5px', alignContent: 'left' }}>Zones</Button> </Link>
-                            <Link to="/Settings"> <Button style={{ margin: '0px 5px 0px 5px', alignContent: 'left' }}>Settings</Button> </Link>
+                            <Link to='/ConfigureZones'><Button className='nav-button'>Configure Zones</Button></Link>
+                            <Link to="/zones"> <Button className='nav-button'>Zones</Button> </Link>
+                            <Link to="/Settings"> <Button className='nav-button'>Settings</Button> </Link>
                         </nav>
                     </header>
                 </div>

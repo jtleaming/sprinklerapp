@@ -105,18 +105,25 @@ class Scheduler extends Component {
     };
 
     saveSchedule = () => {
-        let s = this.state.numberOfSchedules;
-        let i = 0;
-        let sections = [];
-        this.state.rows.forEach(row => {
-            let rowProps = row.props.children;
-            sections.push(
-                `"Section ${i}": {"Start Time": "${rowProps[3].props.children}", "Duration": ${rowProps[2].props.duration}, "Days": "${rowProps[1].props.children}" , "Zone Number": "${rowProps[0].props.children}"}`);
-            i++;
-        });
-        localStorage.setItem(`Schedule ${s}`, `{${sections}}`);
-        notify.show('Schedule saved successfully!');
-        this.setState(this.setInitialState());
+
+        if(this.state.rows.length === 0){
+            notify.show('Must add rows before saving schedule');
+
+        }
+        else{
+            let s = this.state.numberOfSchedules;
+            let i = 0;
+            let sections = [];
+            this.state.rows.forEach(row => {
+                let rowProps = row.props.children;
+                sections.push(
+                    `"Section ${i}": {"Start Time": "${rowProps[3].props.children}", "Duration": ${rowProps[2].props.duration}, "Days": "${rowProps[1].props.children}" , "Zone Number": "${rowProps[0].props.children}"}`);
+                i++;
+            });
+            localStorage.setItem(`Schedule ${s}`, `{${sections}, "Run": false}`);
+            notify.show('Schedule saved successfully!');
+            this.setState(this.setInitialState());
+        }
     };
 
     clearSchedule = () => {

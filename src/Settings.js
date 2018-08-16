@@ -62,9 +62,9 @@ class Settings extends Component {
                     </Link>
                     <h1>Settings</h1>
                     <nav className='nav'>
-                        <Link to='/ConfigureZones'><Button style={{ margin: '0px 5px 0px 5px', alignContent: 'left' }}>Configure Zones</Button></Link>
-                        <Link to="/zones"> <Button style={{ margin: '0px 5px 0px 5px' , alignContent: 'left' }}>Zones</Button> </Link>
-                        <Link to="/schedules"> <Button style={{ margin: '0px 5px 0px 5px' , alignContent: 'left' }}>Schedules</Button> </Link>
+                        <Link to='/ConfigureZones'><Button className='nav-button'>Configure Zones</Button></Link>
+                        <Link to="/zones"> <Button className='nav-button'>Zones</Button> </Link>
+                        <Link to="/schedules"> <Button className='nav-button'>Schedules</Button> </Link>
                     </nav>
                 </header>
                 <div>

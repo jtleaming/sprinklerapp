@@ -71,7 +71,7 @@ class ConfigureZones extends Component {
                     </Link>
                     <h1>Configure Zones</h1>
                     <nav className='nav'>
-                        <Link to='/settings'><Button style={{ alignContent: 'left' }}>Settings</Button></Link>
+                        <Link to='/settings'><Button className='nav-button'>Settings</Button></Link>
                     </nav>
                 </header>
                 <Button id='save-button' onClick={this.addZone} style={{ margin: 15 }}>Add Zone</Button>
