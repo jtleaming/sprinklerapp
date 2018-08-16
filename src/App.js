@@ -77,12 +77,12 @@ class App extends Component {
         const slides = currentSchedule.map((schedule) => {
             return (
                 <CarouselItem
+                    className = 'car'
                     onExiting={this.onExiting}
                     onExited={this.onExited}
                     key={schedule.key}
                 >
                     <div>{schedule}</div>
-                    <CarouselCaption style={{color:'black'}} captionHeader={'Schedule '+ schedule.key} />
                 </CarouselItem>
             );
         });
@@ -96,8 +96,7 @@ class App extends Component {
                         <Link to="/zones"> <Button className='nav-button'>Zones</Button> </Link>
                     </nav>
                 </header>
-                <h3>Current Schedule</h3>
-                {/* {this.state.currentSchedule} */}
+                <h1>Schedule {activeIndex + 1}</h1>
                 <Carousel
                     activeIndex={activeIndex}
                     next={this.next}
@@ -106,7 +105,7 @@ class App extends Component {
                 >
                     <CarouselIndicators items={currentSchedule} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
                     {slides}
-                    <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />
+                    <CarouselControl className='car-con' direction="prev" directionText="Previous" onClickHandler={this.previous} />
                     <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
                 </Carousel>
             </div>

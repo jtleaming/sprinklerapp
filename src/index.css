@@ -59,6 +59,15 @@ day {
    align-content: 'left' 
 }
 
+.car{
+  bottom: -50px;
+  height: 300px;
+}
+
+.car-con{
+  color:black
+}
+
 .react-time-picker {
   display: -ms-inline-flexbox;
   display: inline-flex;
