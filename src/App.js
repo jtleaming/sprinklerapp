@@ -1,17 +1,30 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from 'reactstrap';
+import { 
+    Button,
+    Carousel,
+    CarouselItem,
+    CarouselControl,
+    CarouselIndicators,
+    CarouselCaption } from 'reactstrap';
 import sprinkler from './sprinkler.svg';
 import './App.css';
 import Schedule from './Scheduling/Schedule';
 
 class App extends Component {
     constructor(props){
-        super();
+        super(props);
 
         this.state = {
-            currentSchedule: this.getCurrentSchedule()
+            currentSchedule: this.getCurrentSchedule(),
+            activeIndex: 0
         };
+
+        this.next = this.next.bind(this);
+        this.previous = this.previous.bind(this);
+        this.goToIndex = this.goToIndex.bind(this);
+        this.onExiting = this.onExiting.bind(this);
+        this.onExited = this.onExited.bind(this);
     }
 
     getCurrentSchedule = () =>{
@@ -33,7 +46,46 @@ class App extends Component {
         return runningSchedules;
     }
 
+    onExiting() {
+        this.animating = true;
+    }
+
+    onExited() {
+        this.animating = false;
+    }
+
+    next() {
+        if (this.animating) return;
+        const nextIndex = this.state.activeIndex === this.state.currentSchedule.length - 1 ? 0 : this.state.activeIndex + 1;
+        this.setState({ activeIndex: nextIndex });
+    }
+
+    previous() {
+        if (this.animating) return;
+        const nextIndex = this.state.activeIndex === 0 ? this.state.currentSchedule.length - 1 : this.state.activeIndex - 1;
+        this.setState({ activeIndex: nextIndex });
+    }
+
+    goToIndex(newIndex) {
+        if (this.animating) return;
+        this.setState({ activeIndex: newIndex });
+    }
+
+
     render() {
+        const { activeIndex, currentSchedule } = this.state;
+        const slides = currentSchedule.map((schedule) => {
+            return (
+                <CarouselItem
+                    onExiting={this.onExiting}
+                    onExited={this.onExited}
+                    key={schedule.key}
+                >
+                    <div>{schedule}</div>
+                    <CarouselCaption style={{color:'black'}} captionHeader={'Schedule '+ schedule.key} />
+                </CarouselItem>
+            );
+        });
         return (
             <div className="App">
                 <header className="App-header">
@@ -45,7 +97,18 @@ class App extends Component {
                     </nav>
                 </header>
                 <h3>Current Schedule</h3>
-                {this.state.currentSchedule}
+                {/* {this.state.currentSchedule} */}
+                <Carousel
+                    activeIndex={activeIndex}
+                    next={this.next}
+                    previous={this.previous}
+                    interval={false}
+                >
+                    <CarouselIndicators items={currentSchedule} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
+                    {slides}
+                    <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />
+                    <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
+                </Carousel>
             </div>
         );
     }
