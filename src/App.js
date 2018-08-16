@@ -93,18 +93,20 @@ class App extends Component {
                         <Link to="/zones"> <Button className='nav-button'>Zones</Button> </Link>
                     </nav>
                 </header>
-                <h1>Schedule {activeIndex + 1}</h1>
-                <Carousel
-                    activeIndex={activeIndex}
-                    next={this.next}
-                    previous={this.previous}
-                    interval={false}
-                >
-                    <CarouselIndicators items={currentSchedule} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
-                    {slides}
-                    <CarouselControl className='car-con' direction="prev" directionText="Previous" onClickHandler={this.previous} />
-                    <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
-                </Carousel>
+                {currentSchedule > 0 && <div> <h1>Schedule {activeIndex + 1}</h1>
+                    <Carousel
+                        activeIndex={activeIndex}
+                        next={this.next}
+                        previous={this.previous}
+                        interval={false}
+                    >
+                        <CarouselIndicators items={currentSchedule} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
+                        {slides}
+                        <CarouselControl className='car-con' direction="prev" directionText="Previous" onClickHandler={this.previous} />
+                        <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
+                    </Carousel>
+                </div>
+                }
             </div>
         );
     }

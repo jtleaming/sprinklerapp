@@ -9,10 +9,8 @@ import Notifications from 'react-notify-toast';
 class Settings extends Component {
 
    initialSate = () => {
-       if(!localStorage.Zones){
-           localStorage.setItem('Zones', '{"NumberOfZones":0}');
-       }
        return {
+           schedules: null
        };
    }
 

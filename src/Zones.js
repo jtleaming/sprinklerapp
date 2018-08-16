@@ -3,16 +3,13 @@ import Zone from './Zone';
 import sprinkler from './sprinkler.svg';
 import { Link } from 'react-router-dom';
 import {Button} from 'reactstrap';
- 
-
-
 
 class Zones extends Component {
 
     initialState = () =>{
         return {
             zones: Zone.setZones()
-        }
+        };
     };
 
     state = this.initialState();

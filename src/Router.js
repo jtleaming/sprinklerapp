@@ -6,6 +6,7 @@ import App from './App';
 import ConfigureZones from './ConfigureZones';
 import Schedules from './Scheduling/Schedules';
 
+
 export default (
     <Switch>
         <Route exact path="/" component={App} />
