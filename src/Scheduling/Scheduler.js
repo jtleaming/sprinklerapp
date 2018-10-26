@@ -7,6 +7,7 @@ import '../index.css';
 import Slider from 'rc-slider';
 import CellSlider from '../CellSlider';
 import { notify } from 'react-notify-toast';
+import axios from 'axios';
 
 const DaysOfTheWeek = (props) => {
     let days = ['Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat', 'Sun'];
@@ -23,16 +24,16 @@ const DaysOfTheWeek = (props) => {
 };
 
 class Scheduler extends Component {
-    constructor(props){
+    constructor(props) {
         super();
         this.saveSchedule = this.saveSchedule.bind(this);
 
         this.state = this.setInitialState();
     }
-    
-    setInitialState = () =>{
+
+    setInitialState = () => {
         var i = 1;
-        Object.keys(localStorage).forEach(key => key.includes('Schedule') ? i++ : i); 
+        Object.keys(localStorage).forEach(key => key.includes('Schedule') ? i++ : i);
         return {
             startTime: null,
             daysOfTheWeek: null,
@@ -106,22 +107,35 @@ class Scheduler extends Component {
 
     saveSchedule = () => {
 
-        if(this.state.rows.length === 0){
+        if (this.state.rows.length === 0) {
             notify.show('Must add rows before saving schedule');
 
         }
-        else{
+        else {
             let s = this.state.numberOfSchedules;
             let i = 0;
             let sections = [];
             this.state.rows.forEach(row => {
                 let rowProps = row.props.children;
                 sections.push(
-                    `"Section ${i}": {"Start Time": "${rowProps[3].props.children}", "Duration": ${rowProps[2].props.duration}, "Days": "${rowProps[1].props.children}" , "Zone Number": "${rowProps[0].props.children}"}`);
+                    { Id: i, StartTime: rowProps[3].props.children, Duration: rowProps[2].props.duration, Days: [rowProps[1].props.children], ZoneNumber: rowProps[0].props.children[5] });
                 i++;
             });
-            localStorage.setItem(`Schedule ${s}`, `{${sections}, "Run": false}`);
-            notify.show('Schedule saved successfully!');
+
+            axios.post('http://localhost:5005/schedule/AddSchedule', { Id: s, Sections: sections, Run: false }, {
+                headers: {
+                    "Content-type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                }
+            }).then(response => {
+                if (response.status === 200 ) {
+                    notify.show('Schedule saved successfully!');
+                }
+                else {
+                }
+            }).catch(err => {
+                notify.show(`Error when saving: ${err.message}`);
+            });
             this.setState(this.setInitialState());
         }
     };
@@ -159,7 +173,7 @@ class Scheduler extends Component {
         });
 
     }
- 
+
 
     render() {
         let zonesToSelect = Object.keys(JSON.parse(localStorage.Zones));
@@ -184,7 +198,7 @@ class Scheduler extends Component {
                         </DropdownMenu>
                     </Dropdown>
                 </div>
-                <Schedule rows={this.state.rows}/>
+                <Schedule rows={this.state.rows} />
                 <Button id='save-button' onClick={this.saveSchedule} style={{ margin: 15 }}>Save Schedule</Button>
                 <Button id='clear-button' onClick={this.clearSchedule} style={{ margin: 15 }}>Clear Schedule</Button>
             </div>
