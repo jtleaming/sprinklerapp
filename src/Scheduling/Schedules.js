@@ -58,8 +58,6 @@ class Schedules extends Component {
     }
 
     render() {
-        let zonesToSelect = Object.keys(JSON.parse(localStorage.Zones));
-        zonesToSelect.shift();
         return (
             <div>
                 <div className="App">
@@ -77,12 +75,15 @@ class Schedules extends Component {
                     </header>
                 </div>
                 {
-                    Object.keys(localStorage).map((name, i) =>
-                        name.includes('Schedule') &&
-                        <Button key={i} onClick={() => this.expandSchedule(name)}>{name}</Button>
+                    // Object.keys(localStorage).map((name, i) =>
+                    //     name.includes('Schedule') &&
+                    //     <Button key={i} onClick={() => this.expandSchedule(name)}>{name}</Button>
+                    // )
+                    this.state.schedule.map((sch, i) => 
+                        <Button key={i} onClick={console.log(sch)}> Schedule {sch.Id}</Button>
                     )
                 }
-                {this.state.schedule}
+                {/* {this.state.schedule} */}
             </div>
         );
     }
