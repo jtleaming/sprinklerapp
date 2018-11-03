@@ -6,6 +6,7 @@ import { Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import Notifications from 'react-notify-toast';
 import sprinkler from '../sprinkler.svg';
+import Axios from 'axios';
 
 
 class Schedules extends Component {
@@ -14,11 +15,18 @@ class Schedules extends Component {
         this.state = Schedules.setInitialState();
     }
 
-    static setInitialState = () =>({
-        schedule: null
+    static setInitialState = () => ({
+        schedule: []
     });
 
-    toggleSchedule = (scheduleName) =>{
+    componentDidMount() {
+        Axios.get('http://localhost:5005/schedule')
+            .then(repsonse => {
+                this.setState({ schedule: repsonse.data });
+            });
+    }
+
+    toggleSchedule = (scheduleName) => {
         var schedule = JSON.parse(localStorage.getItem(scheduleName));
 
         schedule.Run ? schedule.Run = false : schedule.Run = true;
@@ -32,18 +40,18 @@ class Schedules extends Component {
         var scheduleProps = JSON.parse(localStorage.getItem(name));
         var schedule = this.state.schedule;
 
-        schedule = 
-        <div>
-            <Schedule createRows={true} rowConfig={scheduleProps}> </Schedule>
-            <div style={{textAlign: 'center'}}>
-                {scheduleProps.Run ?
-                    <Button id='clear-button' onClick={() => this.toggleSchedule(name)}>Set to not Run</Button>:
-                    <Button id='save-button' onClick={() => this.toggleSchedule(name)}>Set to Run</Button>
-                }
-                <Button>Edit Schedule</Button>
-                <Button>Delete Schedule</Button>
-            </div>
-        </div>;
+        schedule =
+            <div>
+                <Schedule createRows={true} rowConfig={scheduleProps}> </Schedule>
+                <div style={{ textAlign: 'center' }}>
+                    {scheduleProps.Run ?
+                        <Button id='clear-button' onClick={() => this.toggleSchedule(name)}>Set to not Run</Button> :
+                        <Button id='save-button' onClick={() => this.toggleSchedule(name)}>Set to Run</Button>
+                    }
+                    <Button>Edit Schedule</Button>
+                    <Button>Delete Schedule</Button>
+                </div>
+            </div>;
         this.setState({
             schedule
         });

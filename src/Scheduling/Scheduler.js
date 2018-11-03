@@ -134,7 +134,8 @@ class Scheduler extends Component {
                 else {
                 }
             }).catch(err => {
-                notify.show(`Error when saving: ${err.message}`);
+                console.log(`Error when saving: ${err.message}: ${err.response.data}`);
+                notify.show(`Error when saving: ${err.response.data}`);
             });
             this.setState(this.setInitialState());
         }
